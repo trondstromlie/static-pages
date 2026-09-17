@@ -147,6 +147,8 @@
   ol li a { color: var(--cyan); text-decoration: none; border-bottom: 1px solid rgba(71,230,208,.35); }
   ol li a:hover { border-bottom-color: var(--cyan); }
 
+  ol li p.or { margin-top: 14px; font-size: .9rem; color: var(--dim); }
+
   .command {
     display: flex; align-items: center; gap: 10px; margin-top: 12px;
     padding: 11px 12px; border-radius: 10px;
@@ -225,8 +227,13 @@
       <p>Du trenger ikke kunne programmering, git eller GitHub. Tre steg, så er du i gang.</p>
       <ol>
         <li>
-          <strong>Last ned repoet</strong>
-          <p>Åpne terminalen og kjør dette. Da får du en mappe som heter <code>static-pages</code> på maskinen din.</p>
+          <strong>Hent repoet ned til maskinen din</strong>
+          <p>Har du en AI-agent — <a href="https://claude.com/claude-code" target="_blank" rel="noopener">Claude Code</a>, <a href="https://opencode.ai" target="_blank" rel="noopener">opencode</a>, <a href="https://github.com/github/copilot-cli" target="_blank" rel="noopener">Copilot CLI</a> eller liknende — så lim inn denne lenka og si «hent ned dette repoet». Da ordner den resten.</p>
+          <div class="command">
+            <code id="repoUrl">https://github.com/trondstromlie/static-pages</code>
+            <button type="button" data-copy="repoUrl">Kopier</button>
+          </div>
+          <p class="or">Eller kjør det selv i terminalen, om du heller vil det:</p>
           <div class="command">
             <code id="cloneCommand">git clone https://github.com/trondstromlie/static-pages.git</code>
             <button type="button" data-copy="cloneCommand">Kopier</button>
