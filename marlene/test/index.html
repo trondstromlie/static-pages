@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marlene — Test</title>
+<style>
+  :root {
+    --bg: #07080d;
+    --text: #f2f0ea;
+    --muted: #9aa3b2;
+    --cyan: #47e6d0;
+    --violet: #8a7cff;
+    --pink: #ff6fb1;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    overflow: hidden;
+  }
+
+  /* Aurora-lag bak alt */
+  .aurora {
+    position: fixed; inset: -20%;
+    filter: blur(80px);
+    opacity: .55;
+    pointer-events: none;
+  }
+  .aurora span {
+    position: absolute; display: block;
+    width: 55vmax; height: 55vmax; border-radius: 50%;
+    mix-blend-mode: screen;
+    animation: drift 22s ease-in-out infinite;
+  }
+  .aurora span:nth-child(1) { background: radial-gradient(circle, var(--violet), transparent 62%); top: -10%; left: -5%; }
+  .aurora span:nth-child(2) { background: radial-gradient(circle, var(--cyan), transparent 62%); bottom: -15%; right: -5%; animation-delay: -7s; }
+  .aurora span:nth-child(3) { background: radial-gradient(circle, var(--pink), transparent 62%); top: 25%; right: 20%; animation-delay: -14s; }
+  @keyframes drift {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    33%      { transform: translate3d(6vw, -4vh, 0) scale(1.12); }
+    66%      { transform: translate3d(-5vw, 5vh, 0) scale(.92); }
+  }
+
+  canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+  /* Filmkorn, tar av den digitale flatheten */
+  .grain {
+    position: fixed; inset: 0; pointer-events: none; opacity: .045;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .stage {
+    position: relative; z-index: 2;
+    height: 100%; display: grid; place-items: center;
+    padding: 48px 16px;
+  }
+
+  .card {
+    max-width: 640px; width: 100%; text-align: center;
+    padding: 44px 36px;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 20px;
+    background: rgba(12, 14, 22, .42);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    box-shadow: 0 30px 80px rgba(0,0,0,.45);
+    animation: rise 1.1s cubic-bezier(.2,.8,.2,1) both;
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .kicker {
+    font-size: .72rem; letter-spacing: .24em; text-transform: uppercase;
+    color: var(--muted); margin: 0 0 18px;
+  }
+  .kicker b {
+    display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--cyan); margin-right: 10px; vertical-align: middle;
+    box-shadow: 0 0 12px var(--cyan);
+    animation: blink 2.4s ease-in-out infinite;
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+
+  h1 {
+    margin: 0 0 14px;
+    font-size: clamp(2.6rem, 11vw, 5rem);
+    line-height: 1;
+    letter-spacing: -.045em;
+    font-weight: 700;
+    background: linear-gradient(100deg, var(--cyan), var(--violet) 42%, var(--pink) 68%, var(--cyan));
+    background-size: 280% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 9s linear infinite;
+  }
+  @keyframes shimmer { to { background-position: 280% 0; } }
+
+  .line {
+    min-height: 2.8em;
+    color: var(--muted);
+    font-size: clamp(1rem, 2.6vw, 1.15rem);
+    margin: 0 auto 26px;
+    max-width: 44ch;
+  }
+  .caret {
+    display: inline-block; width: 2px; height: 1.1em;
+    background: var(--cyan); vertical-align: -.16em; margin-left: 3px;
+    animation: blink 1.1s steps(1) infinite;
+  }
+
+  .hint {
+    font-size: .8rem; color: rgba(154,163,178,.75);
+    margin: 0; letter-spacing: .04em;
+  }
+  .hint kbd {
+    font: inherit; padding: 2px 7px; border-radius: 6px;
+    border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.05);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aurora span, h1, .kicker b, .caret, .card { animation: none; }
+    .aurora { opacity: .4; }
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora"><span></span><span></span><span></span></div>
+<canvas id="field"></canvas>
+<div class="grain"></div>
+
+<div class="stage">
+  <div class="card">
+    <p class="kicker"><b></b>Modell aktiv</p>
+    <h1>Marlene</h1>
+    <p class="line"><span id="typed"></span><span class="caret"></span></p>
+    <p class="hint">Beveg markøren over feltet — eller <kbd>klikk</kbd> for å sende en puls</p>
+  </div>
+</div>
+
+<script>
+(() => {
+  const canvas = document.getElementById('field');
+  const context = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const palette = ['#47e6d0', '#8a7cff', '#ff6fb1'];
+  const pointer = { x: -9999, y: -9999, active: false };
+  const linkDistance = 150;
+  const pointerRadius = 220;
+
+  let width = 0;
+  let height = 0;
+  let nodes = [];
+  let pulses = [];
+
+  function resize() {
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * ratio;
+    canvas.height = height * ratio;
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    seed();
+  }
+
+  function seed() {
+    const density = Math.round((width * height) / 15000);
+    const count = Math.max(40, Math.min(density, 130));
+    nodes = Array.from({ length: count }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.28,
+      vy: (Math.random() - 0.5) * 0.28,
+      radius: Math.random() * 1.7 + 0.9,
+      color: palette[Math.floor(Math.random() * palette.length)],
+      phase: Math.random() * Math.PI * 2
+    }));
+  }
+
+  function spawnPulse(originX, originY) {
+    let nearest = null;
+    let best = Infinity;
+    for (const node of nodes) {
+      const distance = Math.hypot(node.x - originX, node.y - originY);
+      if (distance < best) { best = distance; nearest = node; }
+    }
+    if (nearest) pulses.push({ from: nearest, progress: 0, color: nearest.color, hops: 0 });
+  }
+
+  function nextHop(pulse) {
+    const candidates = nodes.filter((node) => {
+      if (node === pulse.from) return false;
+      return Math.hypot(node.x - pulse.from.x, node.y - pulse.from.y) < linkDistance;
+    });
+    if (!candidates.length || pulse.hops > 6) return false;
+    pulse.to = candidates[Math.floor(Math.random() * candidates.length)];
+    pulse.progress = 0;
+    pulse.hops += 1;
+    return true;
+  }
+
+  function frame(time) {
+    context.clearRect(0, 0, width, height);
+
+    for (const node of nodes) {
+      node.x += node.vx;
+      node.y += node.vy;
+
+      if (node.x < 0 || node.x > width) node.vx *= -1;
+      if (node.y < 0 || node.y > height) node.vy *= -1;
+
+      if (pointer.active) {
+        const dx = pointer.x - node.x;
+        const dy = pointer.y - node.y;
+        const distance = Math.hypot(dx, dy);
+        if (distance < pointerRadius && distance > 1) {
+          const pull = (1 - distance / pointerRadius) * 0.35;
+          node.x += (dx / distance) * pull;
+          node.y += (dy / distance) * pull;
+        }
+      }
+    }
+
+    // Kanter mellom nære noder
+    context.lineWidth = 1;
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const a = nodes[i];
+        const b = nodes[j];
+        const distance = Math.hypot(a.x - b.x, a.y - b.y);
+        if (distance > linkDistance) continue;
+
+        let strength = 1 - distance / linkDistance;
+        const midX = (a.x + b.x) / 2;
+        const midY = (a.y + b.y) / 2;
+        const toPointer = Math.hypot(pointer.x - midX, pointer.y - midY);
+        if (pointer.active && toPointer < pointerRadius) {
+          strength += (1 - toPointer / pointerRadius) * 0.9;
+        }
+
+        context.strokeStyle = a.color;
+        context.globalAlpha = Math.min(strength * 0.32, 0.75);
+        context.beginPath();
+        context.moveTo(a.x, a.y);
+        context.lineTo(b.x, b.y);
+        context.stroke();
+      }
+    }
+
+    // Noder
+    context.globalAlpha = 1;
+    for (const node of nodes) {
+      const breath = 0.7 + Math.sin(time / 900 + node.phase) * 0.3;
+      context.fillStyle = node.color;
+      context.shadowBlur = 14 * breath;
+      context.shadowColor = node.color;
+      context.beginPath();
+      context.arc(node.x, node.y, node.radius * breath, 0, Math.PI * 2);
+      context.fill();
+    }
+    context.shadowBlur = 0;
+
+    // Pulser som hopper fra node til node
+    pulses = pulses.filter((pulse) => {
+      if (!pulse.to && !nextHop(pulse)) return false;
+
+      pulse.progress += 0.03;
+      if (pulse.progress >= 1) {
+        pulse.from = pulse.to;
+        pulse.to = null;
+        return nextHop(pulse);
+      }
+
+      const x = pulse.from.x + (pulse.to.x - pulse.from.x) * pulse.progress;
+      const y = pulse.from.y + (pulse.to.y - pulse.from.y) * pulse.progress;
+
+      context.globalAlpha = 1;
+      context.fillStyle = '#ffffff';
+      context.shadowBlur = 20;
+      context.shadowColor = pulse.color;
+      context.beginPath();
+      context.arc(x, y, 2.6, 0, Math.PI * 2);
+      context.fill();
+      context.shadowBlur = 0;
+      return true;
+    });
+
+    requestAnimationFrame(frame);
+  }
+
+  window.addEventListener('resize', resize);
+  window.addEventListener('pointermove', (event) => {
+    pointer.x = event.clientX;
+    pointer.y = event.clientY;
+    pointer.active = true;
+  });
+  window.addEventListener('pointerleave', () => { pointer.active = false; });
+  window.addEventListener('pointerdown', (event) => spawnPulse(event.clientX, event.clientY));
+
+  resize();
+  if (!reduceMotion) {
+    requestAnimationFrame(frame);
+    setInterval(() => {
+      if (pulses.length < 6) spawnPulse(Math.random() * width, Math.random() * height);
+    }, 1400);
+  } else {
+    frame(0);
+  }
+
+  // Skrivemaskin
+  const phrases = [
+    'Et nevralt nett som tenker i sanntid.',
+    'Hver node lytter til naboene sine.',
+    'Signalene finner veien selv.',
+    'Ingen rammeverk. Bare én HTML-fil.'
+  ];
+  const target = document.getElementById('typed');
+  let phraseIndex = 0;
+  let characterIndex = 0;
+  let deleting = false;
+
+  function type() {
+    const phrase = phrases[phraseIndex];
+    characterIndex += deleting ? -1 : 1;
+    target.textContent = phrase.slice(0, characterIndex);
+
+    let delay = deleting ? 28 : 46;
+    if (!deleting && characterIndex === phrase.length) {
+      deleting = true;
+      delay = 2200;
+    } else if (deleting && characterIndex === 0) {
+      deleting = false;
+      phraseIndex = (phraseIndex + 1) % phrases.length;
+      delay = 420;
+    }
+    setTimeout(type, delay);
+  }
+
+  if (reduceMotion) target.textContent = phrases[0];
+  else type();
+})();
+</script>
+
+</body>
+</html>
