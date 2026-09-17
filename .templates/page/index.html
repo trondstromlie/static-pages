@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ny side</title>
+<style>
+  :root {
+    --bg: #fbfaf8;
+    --surface: #ffffff;
+    --border: #e6e2db;
+    --text: #1d1b18;
+    --muted: #6f6a62;
+    --accent: #1f6f4a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #171614;
+      --surface: #1f1e1b;
+      --border: #32302c;
+      --text: #f1efea;
+      --muted: #a29c93;
+      --accent: #6fcf9a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #171614;
+    --surface: #1f1e1b;
+    --border: #32302c;
+    --text: #f1efea;
+    --muted: #a29c93;
+    --accent: #6fcf9a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 64px 16px 96px;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  main { max-width: 680px; margin: 0 auto; }
+  h1 { font-size: clamp(2rem, 7vw, 3rem); line-height: 1.1; letter-spacing: -.03em; margin: 0 0 12px; }
+  .lead { color: var(--muted); font-size: 1.1rem; margin: 0 0 40px; }
+  .panel {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px;
+  }
+  img { max-width: 100%; height: auto; border-radius: 10px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Overskrift</h1>
+  <p class="lead">Én setning som sier hva denne sida handler om.</p>
+
+  <div class="panel">
+    <p>Innholdet ditt kommer her.</p>
+  </div>
+</main>
+</body>
+</html>

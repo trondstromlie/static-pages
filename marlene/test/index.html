@@ -102,6 +102,13 @@
   }
   @keyframes shimmer { to { background-position: 280% 0; } }
 
+  .question {
+    font-size: clamp(1.15rem, 3.4vw, 1.5rem);
+    color: var(--text);
+    margin: 0 0 18px;
+    font-weight: 500;
+    letter-spacing: -.01em;
+  }
   .line {
     min-height: 2.8em;
     color: var(--muted);
@@ -138,10 +145,11 @@
 
 <div class="stage">
   <div class="card">
-    <p class="kicker"><b></b>Modell aktiv</p>
-    <h1>Marlene</h1>
+    <p class="kicker"><b></b>Klar når du er</p>
+    <h1>Hei, Marlene</h1>
+    <p class="question">Hva vil du lage i dag?</p>
     <p class="line"><span id="typed"></span><span class="caret"></span></p>
-    <p class="hint">Beveg markøren over feltet — eller <kbd>klikk</kbd> for å sende en puls</p>
+    <p class="hint">Si det til assistenten din — eller <kbd>klikk</kbd> i bakgrunnen for å sende en puls</p>
   </div>
 </div>
 
@@ -317,10 +325,10 @@
 
   // Skrivemaskin
   const phrases = [
-    'Et nevralt nett som tenker i sanntid.',
-    'Hver node lytter til naboene sine.',
-    'Signalene finner veien selv.',
-    'Ingen rammeverk. Bare én HTML-fil.'
+    'En invitasjon? En presentasjon?',
+    'Et bursdagskort som faktisk beveger seg?',
+    'Bare si det — så bygger vi det sammen.',
+    'Og når du er ferdig, får du en lenke du kan dele.'
   ];
   const target = document.getElementById('typed');
   let phraseIndex = 0;

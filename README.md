@@ -1,30 +1,80 @@
 # static-pages
 
-Samling av statiske HTML-sider, publisert med GitHub Pages fra `main` (rot-mappa).
+Her lager vi nettsider. Én mappe per person, én undermappe per prosjekt — og alt som legges ut havner automatisk på nett.
 
-## Struktur
+**Se det som allerede ligger ute:** https://trondstromlie.github.io/static-pages/
+
+---
+
+## Hvis du er ny her
+
+Du trenger ikke kunne git, GitHub eller programmering. Du trenger én ting: en AI-assistent som er åpnet i denne mappa — Claude Code, Copilot eller tilsvarende.
+
+Så sier du bare hva du vil:
+
+| Du sier | Det som skjer |
+| --- | --- |
+| «Hvordan funker dette?» | Assistenten forklarer resten, tilpasset deg |
+| «Jeg vil lage en side om sommerfesten» | Den lager mappa og sida, og viser deg resultatet |
+| «Kan du gjøre overskriften større?» | Den endrer sida |
+| **«Jeg er ferdig»** | Den legger det ut, sjekker at alt går bra, og **gir deg lenka du kan dele** |
+
+Du skal aldri måtte skrive en git-kommando eller åpne en terminal selv. Sier assistenten at du må gjøre noe teknisk, minn den om at instruksjonene i `AGENTS.md` sier at den skal gjøre det for deg.
+
+---
+
+## Den ene regelen
+
+**Du jobber i din egen mappe. Andres mapper lar du være.**
+
+| Person | Mappe |
+| --- | --- |
+| Trond | `trond/` |
+| Marlene | `marlene/` |
+
+Slik kan flere holde på samtidig uten å ødelegge for hverandre. Assistenten passer på dette for deg, og sier fra hvis du kommer borti noe som ikke er ditt.
+
+Har du ingen mappe ennå? Si «jeg har ikke en mappe ennå» — så lager assistenten en.
+
+---
+
+## Hvordan det er bygd opp
 
 ```
-/                       rot-index som lenker til alle prosjekter
-/<person>/<prosjekt>/    index.html + eventuelle bilder
+static-pages/
+├── index.html              forsida, med lenker til alle prosjektene
+├── trond/
+│   └── presentasjon/
+│       └── index.html
+└── marlene/
+    └── test/
+        └── index.html
 ```
 
-Eksempel:
+Hver undermappe blir en egen adresse på nett:
 
 ```
-trond/presentasjon/index.html
+marlene/sommerfest/index.html  →  https://trondstromlie.github.io/static-pages/marlene/sommerfest/
 ```
 
-## Legge til et nytt prosjekt
+Sidene er vanlige HTML-filer — én fil per side, med design og funksjonalitet inni. Ingen installasjon, ingen byggesteg.
 
-1. Lag mappa: `mkdir -p <person>/<prosjekt>`
-2. Legg `index.html` (og bilder) i den mappa.
-3. Lenk den opp fra rot-`index.html`.
-4. Commit og push — Pages bygger automatisk.
+---
 
-URL blir `https://trondstromlie.github.io/static-pages/<person>/<prosjekt>/`.
+## Godt å vite
 
-## Regler
+- **Alt her er offentlig.** Repoet er åpent, så alt du legger ut kan leses av hvem som helst. Ikke legg inn passord, personopplysninger eller noe du ikke vil at fremmede skal se.
+- **Det tar et par minutter** fra noe legges ut til det er synlig på nett. Assistenten venter og sier fra når sida faktisk er oppe.
+- **Bilder legges i samme mappe som sida.** Assistenten ordner koblingen.
+- **Du kan endre ting etterpå.** Ingenting er hugget i stein — si hva du vil endre, så legges en ny versjon ut.
 
-- Bruk relative lenker (`bilder/foo.png`), aldri absolutte (`/bilder/foo.png`) — sida ligger under `/static-pages/`.
-- `.nojekyll` i rota slår av Jekyll-prosessering, så mapper og filer med `_` fungerer.
+---
+
+## For den som lurer på detaljene
+
+- `AGENTS.md` — de fullstendige reglene assistenten følger
+- `CLAUDE.md`, `COPILOT.md`, `.github/copilot-instructions.md` — peker til `AGENTS.md`
+- `.claude/skills/` — ferdige arbeidsflyter for Claude Code: `help`, `start-work`, `new-page`, `publish`
+- `.templates/page/index.html` — utgangspunktet for nye sider
+- `.nojekyll` — slår av Jekyll-prosessering hos GitHub
+- `.me` — hvem som jobber lokalt her; ligger i `.gitignore` og legges aldri ut
