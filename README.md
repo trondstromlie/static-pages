@@ -6,6 +6,32 @@ Her lager vi nettsider. Én mappe per person, én undermappe per prosjekt — og
 
 ---
 
+## Kom i gang
+
+### 1. Last ned repoet
+
+```
+git clone https://github.com/trondstromlie/static-pages.git
+```
+
+Da får du en mappe som heter `static-pages` på maskinen din. Har du GitHub CLI, funker `gh repo clone trondstromlie/static-pages` like bra.
+
+### 2. Be om å bli contributor
+
+Du kan laste ned og se på alt uten tilgang, men for å **legge ut** noe trenger du skrivetilgang til repoet.
+
+Send GitHub-brukernavnet ditt til Trond, eller [be om tilgang her](https://github.com/trondstromlie/static-pages/issues/new?title=Jeg%20vil%20bli%20contributor&body=Hei!%20GitHub-brukernavnet%20mitt%20er:%20).
+
+Når du er lagt til, får du din egen mappe — og da jobber du bare i den.
+
+### 3. Lag og del
+
+Åpne mappa med AI-assistenten din og si hva du vil lage. Når du er fornøyd, sier du «jeg er ferdig» — så legges sida ut, og du får en lenke du kan dele med en gang.
+
+Prøver du å legge ut noe før du har fått tilgang, stopper det med en feil om manglende rettigheter. Arbeidet ditt er trygt lagret så lenge, og assistenten legger det ut så snart tilgangen er på plass.
+
+---
+
 ## Hvis du er ny her
 
 Du trenger ikke kunne git, GitHub eller programmering. Du trenger én ting: en AI-assistent som er åpnet i denne mappa — Claude Code, Copilot eller tilsvarende.
