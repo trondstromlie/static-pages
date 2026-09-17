@@ -9,11 +9,19 @@ Kjøres før første endring. Brukeren skal ikke merke noe av dette annet enn é
 
 ## 1. Hvem jobber her
 
-Les `.me` i rota. Finnes den ikke, spør én gang hva de heter, og lag den:
+Les `.me` i rota. Står det noe der, bruk det uten å spørre.
+
+Finnes den ikke, gjett — `git config user.name` og mappene som allerede ligger i rota gir som regel svaret — men **spør om det stemmer før du skriver noe**:
+
+> Jeg tipper du er Trond og skal jobbe i `trond/` — stemmer det?
+
+Vent på svar. Først da:
 
 ```
 echo "<fornavn i små bokstaver>" > .me
 ```
+
+Har du ikke noe å gjette på, spør rett ut hva de heter. Aldri anta i stillhet — feil mappe er irriterende å rydde opp i etterpå.
 
 Mappa deres er det som står i `.me`. Finnes ikke mappa, lag den.
 
