@@ -9,7 +9,9 @@ Brukeren er ny og skal ikke lære git. Målet er at de forstår tre ting: hvor d
 
 ## Finn ut hvem de er først
 
-Les `.me` i rota. Finnes den ikke, spør hva de heter, lag `.me` med fornavnet i små bokstaver, og fortsett. Ikke gjør noe nummer ut av det.
+Les `.me` i rota. Står det noe der, bruk det uten å spørre.
+
+Finnes den ikke, gjett ut fra `git config user.name` og mappene som ligger i rota — men **spør om det stemmer** («Jeg tipper du er Trond og skal jobbe i `trond/` — stemmer det?») før du lager `.me`. Vent på svar, skriv så fornavnet i små bokstaver til fila, og fortsett. Ikke gjør noe nummer ut av det — ett spørsmål, ikke et skjema.
 
 ## Si det omtrent slik, tilpasset personen
 
