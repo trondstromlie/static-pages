@@ -7,6 +7,18 @@ description: Hent siste versjon fra GitHub og lag en arbeidskopi før brukeren b
 
 Kjøres før første endring. Brukeren skal ikke merke noe av dette annet enn én kort setning til slutt.
 
+## 0. Står du i rota?
+
+Repoet ligger ofte i en undermappe, fordi folk kloner det inn i en mappe de allerede står i. Kjør dette først, hver gang:
+
+```bash
+cd "$(git rev-parse --show-toplevel)"
+```
+
+Feiler den, står du utenfor repoet: `ls -d */.git` finner det som regel ett hakk ned. Flere treff eller ingen — spør hvor det ligger, ikke klon et nytt.
+
+Testen på at du står riktig: `ls` viser både `index.html` og `AGENTS.md`.
+
 ## 1. Hvem jobber her
 
 Les `.me` i rota. Står det noe der, bruk det uten å spørre.
