@@ -7,6 +7,8 @@ description: Lag et nytt prosjekt med en ny HTML-side i brukerens egen mappe i s
 
 ## 1. Riktig sted
 
+Stå i rota først — `cd "$(git rev-parse --show-toplevel)"` — ellers lager du mapper på feil nivå.
+
 Mappa til brukeren står i `.me`. Den nye sida skal ligge her:
 
 ```

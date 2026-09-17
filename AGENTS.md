@@ -4,20 +4,52 @@ Dette er fasiten. `CLAUDE.md`, `COPILOT.md` og `.github/copilot-instructions.md`
 
 ---
 
+## 0. Finn rota før du gjør noe som helst
+
+Folk kloner repoet inn i en mappe de allerede står i. Da havner det i en undermappe, og du blir startet ett nivå for høyt — eller inne i `trond/`, ett nivå for lavt. **Ikke anta at mappa du starter i er rota.**
+
+Første kommando, hver gang:
+
+```bash
+cd "$(git rev-parse --show-toplevel)"
+```
+
+Alle stier i dette dokumentet — `index.html`, `.me`, `assets/`, `<person>/` — er relative til den mappa. Ingen unntak.
+
+Feiler kommandoen, står du utenfor repoet. Se etter mappa i det du har rundt deg:
+
+```bash
+ls -d */.git 2>/dev/null
+```
+
+- **Ett treff** — gå inn i den og fortsett.
+- **Flere treff, eller ingen** — spør brukeren hvor repoet ligger. Ikke gjett, og ikke klon et nytt: to kopier av det samme repoet er verre enn å spørre.
+
+Er du i tvil om du står riktig, er testen at `ls` viser både `index.html` og `AGENTS.md`.
+
+---
+
 ## 1. Hva dette repoet er
 
 En samling frittstående HTML-sider som publiseres automatisk på GitHub Pages.
 
 ```
 static-pages/
-├── index.html              ← forsida som lenker til alle prosjektene
+├── index.html              ← forsida som lenker til alle personene
+├── assets/
+│   ├── site.css            ← felles design for forsida og personsidene
+│   └── site.js
 ├── trond/                  ← Trond sin mappe
+│   ├── index.html          ← Tronds oversikt over sine prosjekter
 │   └── presentasjon/
 │       └── index.html
 └── marlene/                ← Marlene si mappe
+    ├── index.html
     └── test/
         └── index.html
 ```
+
+Prosjektsidene (`<person>/<prosjekt>/index.html`) er frittstående — all CSS og JavaScript ligger i fila. Forsida og personsidene er unntaket: de deler `assets/`, så designet ikke sklir fra hverandre.
 
 Alt som ligger på `main` er live noen minutter senere på:
 
@@ -59,7 +91,7 @@ Hvis brukeren ber deg endre noe i en annens mappe, si det rett ut:
 ### Hvordan du finner ut hvilken mappe som er brukerens
 
 1. Se etter en fil `.me` i rota av repoet. Hvis den finnes, inneholder den mappenavnet — det er fasit.
-2. Finnes den ikke: spør **én gang** («Hva heter mappa di?»), lag `.me` med svaret, og ikke spør igjen.
+2. Finnes den ikke: gjett ut fra `git config user.name` og mappene som allerede ligger i rota, og **spør om det stemmer** («Jeg tipper du er Trond og skal jobbe i `trond/` — stemmer det?»). Vent på svar før du lager `.me`. Har du ingenting å gjette på, spør rett ut hva de heter. Aldri anta i stillhet.
 3. Har de ingen mappe ennå, lag den. Mappenavn skal være fornavn i små bokstaver, uten æ/ø/å og uten mellomrom (`marlene`, `per-olav`).
 
 `.me` er i `.gitignore` og blir aldri lagt ut.
@@ -92,6 +124,7 @@ Skjer dette midt i en samtale fordi de plutselig begynte å endre ting, er det h
 - Lag sider som **én selvstendig `index.html`** med CSS og JavaScript inni. Ingen byggesteg, ingen npm, ingen rammeverk.
 - **Bilder legges i samme mappe som sida** og lenkes relativt: `<img src="bilde.png">`. Aldri `/bilde.png` — sida ligger under `/static-pages/`, så absolutte stier blir 404.
 - Alle undermapper trenger en `index.html`, ellers blir URL-en 404.
+- **Nytt prosjekt skal lenkes opp to steder:** i `<person>/index.html` og i brukerens seksjon på forsida. Glemmer du den ene, forsvinner prosjektet fra navigasjonen.
 - Sidene skal se bra ut på mobil. Test bredden mentalt: 16px luft i sidene, ingen horisontal scroll.
 - Skriv identifikatorer i koden (variabler, funksjoner, CSS-klasser) på engelsk. Tekst brukeren ser kan være på norsk.
 
