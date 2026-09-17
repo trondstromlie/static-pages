@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Presentasjon</title>
+<style>
+  :root {
+    --bg: #fbfaf8;
+    --surface: #ffffff;
+    --border: #e6e2db;
+    --text: #1d1b18;
+    --muted: #6f6a62;
+    --accent: #1f6f4a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141312;
+      --surface: #1e1d1a;
+      --border: #32302c;
+      --text: #f1efea;
+      --muted: #a29c93;
+      --accent: #6fcf9a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141312;
+    --surface: #1e1d1a;
+    --border: #32302c;
+    --text: #f1efea;
+    --muted: #a29c93;
+    --accent: #6fcf9a;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+  }
+  .deck { flex: 1; display: grid; place-items: center; padding: 48px 16px; }
+  .slide {
+    display: none;
+    max-width: 780px;
+    width: 100%;
+    text-align: center;
+  }
+  .slide.is-active { display: block; }
+  .slide h1 { font-size: clamp(2rem, 6vw, 3.4rem); margin: 0 0 16px; letter-spacing: -0.03em; line-height: 1.1; }
+  .slide h2 { font-size: clamp(1.5rem, 4.5vw, 2.4rem); margin: 0 0 20px; letter-spacing: -0.02em; }
+  .slide p { font-size: clamp(1rem, 2.5vw, 1.25rem); color: var(--muted); margin: 0 auto; max-width: 56ch; }
+  .slide ul { text-align: left; max-width: 52ch; margin: 0 auto; padding-left: 1.2em; font-size: clamp(1rem, 2.5vw, 1.2rem); }
+  .slide li { margin-bottom: 10px; }
+  .kicker { color: var(--accent); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; margin-bottom: 12px; }
+
+  .bar {
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    padding: 14px 16px; border-top: 1px solid var(--border); background: var(--surface);
+  }
+  button {
+    font: inherit; padding: 8px 16px; border-radius: 8px; cursor: pointer;
+    border: 1px solid var(--border); background: transparent; color: var(--text);
+  }
+  button:hover { border-color: var(--accent); }
+  button:disabled { opacity: .4; cursor: default; border-color: var(--border); }
+  .counter { color: var(--muted); font-variant-numeric: tabular-nums; min-width: 4ch; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="deck">
+  <section class="slide is-active">
+    <p class="kicker">Presentasjon</p>
+    <h1>Tittel på presentasjonen</h1>
+    <p>Undertittel eller én setning som sier hva dette handler om.</p>
+  </section>
+
+  <section class="slide">
+    <h2>Hovedpoeng</h2>
+    <ul>
+      <li>Første punkt</li>
+      <li>Andre punkt</li>
+      <li>Tredje punkt</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h2>Takk</h2>
+    <p>Spørsmål?</p>
+  </section>
+</div>
+
+<div class="bar">
+  <button type="button" data-nav="prev">← Forrige</button>
+  <span class="counter"></span>
+  <button type="button" data-nav="next">Neste →</button>
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const counter = document.querySelector('.counter');
+  const prevButton = document.querySelector('[data-nav="prev"]');
+  const nextButton = document.querySelector('[data-nav="next"]');
+  let current = 0;
+
+  function render() {
+    slides.forEach((slide, index) => slide.classList.toggle('is-active', index === current));
+    counter.textContent = (current + 1) + ' / ' + slides.length;
+    prevButton.disabled = current === 0;
+    nextButton.disabled = current === slides.length - 1;
+    location.hash = current === 0 ? '' : String(current + 1);
+  }
+
+  function go(step) {
+    current = Math.min(Math.max(current + step, 0), slides.length - 1);
+    render();
+  }
+
+  prevButton.addEventListener('click', () => go(-1));
+  nextButton.addEventListener('click', () => go(1));
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight' || event.key === ' ' || event.key === 'PageDown') { event.preventDefault(); go(1); }
+    if (event.key === 'ArrowLeft' || event.key === 'PageUp') { event.preventDefault(); go(-1); }
+    if (event.key === 'Home') { current = 0; render(); }
+    if (event.key === 'End') { current = slides.length - 1; render(); }
+  });
+
+  const fromHash = parseInt(location.hash.slice(1), 10);
+  if (Number.isInteger(fromHash) && fromHash >= 1 && fromHash <= slides.length) current = fromHash - 1;
+  render();
+</script>
+
+</body>
+</html>
