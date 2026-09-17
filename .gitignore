@@ -1,0 +1,9 @@
+# Hvem som jobber her — lokalt, skal aldri legges ut
+.me
+
+# Rusk fra operativsystem og editor
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
