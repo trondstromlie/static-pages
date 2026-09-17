@@ -33,17 +33,34 @@ Start fra `.templates/page/index.html` hvis det passer, eller skriv den fra bunn
 
 Lag noe som ser bra ut med én gang. Brukeren skal kunne si «den var fin» før de har endret et komma.
 
-## 3. Lenk den opp fra forsida
+## 3. Lenk den opp to steder
 
-Legg inn et kort i `index.html` i rota, **i brukerens egen seksjon**. Har de ingen seksjon ennå, lag en ny `<h2>` med navnet deres nederst — rør aldri andres seksjoner:
+Sida skal inn både på personsida og på forsida. Glemmer du den ene, forsvinner prosjektet fra navigasjonen.
+
+**a) `<person>/index.html`** — personens egen oversikt. Legg til et kort i `<ul>`-en:
 
 ```html
-<h2>Marlene</h2>
+<li>
+  <a class="card" href="sommerfest/">
+    <strong>Sommerfest</strong>
+    <span>Invitasjon med kart og påmelding</span>
+    <span class="go">→</span>
+  </a>
+</li>
+```
+
+Finnes ikke personsida ennå, lag den etter mønster av `trond/index.html`: samme oppbygning, `../assets/site.css` og `../assets/site.js`, og navnet deres i `<h1>`.
+
+**b) `index.html` i rota** — **i brukerens egen seksjon**. Har de ingen seksjon ennå, lag en ny `<h2>` med navnet deres nederst, lenket til personsida — rør aldri andres seksjoner:
+
+```html
+<h2><a href="marlene/">Marlene</a></h2>
 <ul>
   <li>
     <a class="card" href="marlene/sommerfest/">
       <strong>Sommerfest</strong>
       <span>Invitasjon med kart og påmelding</span>
+      <span class="go">→</span>
     </a>
   </li>
 </ul>
