@@ -55,6 +55,42 @@
   a.card:hover { border-color: var(--accent); transform: translateY(-1px); }
   a.card strong { display: block; font-size: 1.05rem; }
   a.card span { color: var(--muted); font-size: 0.9rem; }
+
+  .start {
+    margin-top: 56px; padding: 28px 26px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+  }
+  .start h2 { margin-top: 0; }
+  .start p { margin: 0 0 20px; color: var(--muted); }
+  ol { margin: 0; padding-left: 0; list-style: none; counter-reset: step; display: grid; gap: 20px; }
+  ol li { counter-increment: step; padding-left: 42px; position: relative; }
+  ol li::before {
+    content: counter(step);
+    position: absolute; left: 0; top: 1px;
+    width: 26px; height: 26px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--accent); color: #fff;
+    font-size: 0.82rem; font-weight: 600;
+  }
+  ol li strong { display: block; margin-bottom: 4px; }
+  ol li span { color: var(--muted); font-size: 0.94rem; }
+  ol li a { color: var(--accent); }
+
+  .command {
+    display: flex; align-items: center; gap: 10px;
+    margin-top: 10px; padding: 10px 12px;
+    background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+  }
+  .command code {
+    flex: 1; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.84rem; color: var(--text); overflow-x: auto; white-space: nowrap;
+  }
+  .command button {
+    font: inherit; font-size: 0.78rem; padding: 4px 10px; cursor: pointer;
+    border: 1px solid var(--border); border-radius: 6px;
+    background: var(--surface); color: var(--muted); flex-shrink: 0;
+  }
+  .command button:hover { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
@@ -81,6 +117,45 @@
       </a>
     </li>
   </ul>
+
+  <section class="start">
+    <h2>Vil du lage dine egne sider?</h2>
+    <p>Du trenger ikke kunne programmering, git eller GitHub. Tre steg, så er du i gang.</p>
+    <ol>
+      <li>
+        <strong>Last ned repoet</strong>
+        <span>Åpne terminalen og kjør dette. Da får du en mappe som heter <code>static-pages</code> på maskinen din.</span>
+        <div class="command">
+          <code id="cloneCommand">git clone https://github.com/trondstromlie/static-pages.git</code>
+          <button type="button" data-copy="cloneCommand">Kopier</button>
+        </div>
+      </li>
+      <li>
+        <strong>Be om å bli contributor</strong>
+        <span>Du trenger skrivetilgang for å legge ut noe. Send GitHub-brukernavnet ditt til Trond, eller
+          <a href="https://github.com/trondstromlie/static-pages/issues/new?title=Jeg%20vil%20bli%20contributor&amp;body=Hei!%20GitHub-brukernavnet%20mitt%20er%3A%20" target="_blank" rel="noopener">be om tilgang her</a>.
+          Du får din egen mappe, og jobber bare i den.</span>
+      </li>
+      <li>
+        <strong>Lag og del</strong>
+        <span>Åpne mappa med AI-assistenten din og si hva du vil lage. Når du er fornøyd, sier du «jeg er ferdig» — så legges sida ut, og du får en lenke du kan dele med en gang.</span>
+      </li>
+    </ol>
+  </section>
 </main>
+<script>
+  document.querySelectorAll('[data-copy]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const text = document.getElementById(button.dataset.copy).textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        button.textContent = 'Kopiert';
+      } catch {
+        button.textContent = 'Merk og kopier';
+      }
+      setTimeout(() => { button.textContent = 'Kopier'; }, 1800);
+    });
+  });
+</script>
 </body>
 </html>
